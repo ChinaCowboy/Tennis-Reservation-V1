@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
-
+import logo from "./logo.svg";
+import "./App.css";
+import { Layout, Modal } from "antd";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Suspense } from "react";
+import { Ball } from "./Ball";
+import styles from "./App.module.css";
+import { NavBar } from "./navigation/NavBar";
+import MyRouterSwitch from "./navigation/MyRouterSwitch";
 function App() {
+  const basename = process.env.PUBLIC_URL;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter basename={basename}>
+      <Layout>
+        <Suspense fallback={<Ball visible preloader spin />}>
+          <Routes>
+            <Route path="/reserv"></Route>
+            <Route
+              path="*"
+              element={
+                <div>
+                  <NavBar />
+                  <Layout.Content className={styles.Content}>
+                    <MyRouterSwitch />
+                  </Layout.Content>
+                </div>
+              }
+            ></Route>
+          </Routes>
+        </Suspense>
+      </Layout>
+    </BrowserRouter>
   );
 }
 
